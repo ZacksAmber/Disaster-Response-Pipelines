@@ -2,9 +2,11 @@ import json
 import plotly
 import pandas as pd
 import joblib
+import re
 
-from nltk.stem import WordNetLemmatizer
+from nltk.stem import WordNetLemmatizer, PorterStemmer
 from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
 
 from flask import Flask
 from flask import render_template, request, jsonify
@@ -15,23 +17,55 @@ from sqlalchemy import create_engine
 
 app = Flask(__name__)
 
-def tokenize(text):
+
+def tokenize(message, stem='lemm'):
+    """Text processing.
+    
+    Args:
+        message(str): Message content.
+        stem(str): stem or lemm.
+        
+    Returns:
+        list: Cleaned tokens.
+    """
+    # 1. Cleaning
+
+    # 2. Normalization
+    text = re.sub(r"[^a-zA-Z0-9]", " ", message.lower())
+
+    # 3. Tokenization
     tokens = word_tokenize(text)
-    lemmatizer = WordNetLemmatizer()
+
+    # 4. Stop Word Removal
+    stop_words = stopwords.words("english")
+    tokens = list(filter(lambda w: w not in stop_words, tokens))
+
+    # 5. Part of Speech Tagging / Named Entity Recognition
+
+    # 6. Stemming or Lemmatization
+    # Because the targets are not roots, we should use Lemmatization
 
     clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
+    if stem == 'stem':
+        stemmer = PorterStemmer()
+        for tok in tokens:
+            clean_tok = stemmer.stem(tok).strip()
+            clean_tokens.append(clean_tok)
+    else:
+        lemmatizer = WordNetLemmatizer()
+        for tok in tokens:
+            clean_tok = lemmatizer.lemmatize(tok).strip()
+            clean_tokens.append(clean_tok)
 
     return clean_tokens
 
+
 # load data
-engine = create_engine('sqlite:///../data/YourDatabaseName.db')
-df = pd.read_sql_table('YourTableName', engine)
+engine = create_engine('sqlite:///../data/disaster_response.db')
+df = pd.read_sql_table('disaster_response', engine)
 
 # load model
-model = joblib.load("../models/your_model_name.pkl")
+model = joblib.load("../models/model.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
