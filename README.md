@@ -40,9 +40,9 @@ disaster_response_pipelines
 ├── data
 │   ├── disaster_categories.csv # data to process 
 │   ├── disaster_messages.csv # data to process
-│   ├── disasterDB.db # SQLite database to save clean data to
-│   └── process_data.py
+│   ├── disaster_response.db # SQLite database to save clean data to. DB and TB name defined by user.
+│   └── process_data.py # Data processing script. Process data from two csv files then store it into a SQLite database
 └── models
-    ├── classifier.pkl # saved model
+    ├── model.pkl # saved model
     └── train_classifier.py
 ```
