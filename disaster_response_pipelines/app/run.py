@@ -65,7 +65,7 @@ engine = create_engine('sqlite:///../data/disaster_response.db')
 df = pd.read_sql_table('disaster_response', engine)
 
 # load model
-model = joblib.load("../models/model.pkl")
+model = joblib.load("../models/classifier.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
@@ -113,7 +113,7 @@ def index():
 @app.route('/go')
 def go():
     # save user input in query
-    query = request.args.get('query', '') 
+    query = request.args.get("query", "") 
 
     # use model to predict classification for query
     classification_labels = model.predict([query])[0]
