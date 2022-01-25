@@ -3,6 +3,7 @@ import plotly
 import pandas as pd
 import joblib
 import re
+import sys
 
 from nltk.stem import WordNetLemmatizer, PorterStemmer
 from nltk.tokenize import word_tokenize
@@ -17,6 +18,8 @@ from sqlalchemy import create_engine
 
 app = Flask(__name__)
 
+# WARNING: appending directory 'models' for joblib loading model.
+sys.path.append('../models')
 
 def tokenize(message, stem='lemm'):
     """Text processing.

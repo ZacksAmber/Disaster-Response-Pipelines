@@ -1,0 +1,7 @@
+{
+    "vect__max_features": 400,
+    "multi_clf__estimator__activation": "relu",
+    "multi_clf__estimator__solver": "adam",
+    "multi_clf__estimator__hidden_layer_sizes": 170,
+    "multi_clf__estimator__max_iter": 220
+}
