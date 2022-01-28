@@ -130,3 +130,5 @@ def run_pipeline(data_file):
 if __name__ == '__main__':
     data_file = sys.argv[1]  # get filename of dataset
     run_pipeline(data_file)  # run data pipeline
+
+sys.argv[1]

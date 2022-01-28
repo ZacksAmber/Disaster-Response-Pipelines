@@ -53,36 +53,31 @@ class NeuralNetwork:
         Returns:
             list: Cleaned tokens.
         """
-        # 1. Cleaning
+        # Cleaning
+        # replace each url in text string with placeholder
+        url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+        url_pattern = re.compile(url_regex)
+        message = url_pattern.sub('urlplaceholder', message)
 
-        # 2. Normalization
-        text = re.sub(r"[^a-zA-Z0-9]", " ", message.lower())
+        # Normalization
+        message = re.sub(r"[^a-zA-Z0-9]", " ", message.lower())
 
-        # 3. Tokenization
-        tokens = word_tokenize(text)
+        # Tokenization
+        tokens = word_tokenize(message)
 
-        # 4. Stop Word Removal
+        # Stop Word Removal & Stemming/Lemmatization
         stop_words = stopwords.words("english")
-        tokens = list(filter(lambda w: w not in stop_words, tokens))
-
-        # 5. Part of Speech Tagging / Named Entity Recognition
-
-        # 6. Stemming or Lemmatization
-        # Because the targets are not roots, we should use Lemmatization
-
-        clean_tokens = []
+        # because the targets are not roots, we should use Lemmatization
         if stem == 'stem':
             stemmer = PorterStemmer()
-            for tok in tokens:
-                clean_tok = stemmer.stem(tok).strip()
-                clean_tokens.append(clean_tok)
+            tokens = [stemmer.stem(tok)
+                      for tok in tokens if tok not in stop_words]
         else:
             lemmatizer = WordNetLemmatizer()
-            for tok in tokens:
-                clean_tok = lemmatizer.lemmatize(tok).strip()
-                clean_tokens.append(clean_tok)
+            tokens = [lemmatizer.lemmatize(tok)
+                      for tok in tokens if tok not in stop_words]
 
-        return clean_tokens
+        return tokens
 
     def build_model(self, params):
         # text processing and model pipeline
