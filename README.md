@@ -1,5 +1,11 @@
 # Disaster-Response-Pipelines
 
+## Presentation
+
+> [Zacks - Disaster Response Pipelines](http://www.zacks.cloud/projects/disaster_response_pipelines/)<br>
+
+---
+
 ## References
 
 > [Udacity Data Scientist Nanodegree](https://www.udacity.com/course/data-scientist-nanodegree--nd025)<br>
@@ -43,6 +49,8 @@ disaster_response_pipelines
 │   ├── disaster_response.db # SQLite database to save clean data to. DB and TB name defined by user.
 │   └── process_data.py # Data processing script. Process data from two csv files then store it into a SQLite database
 └── models
-    ├── model.pkl # saved model
-    └── train_classifier.py
+    ├── NeuralNetwork.py # model training script
+    ├── best_params.json # hyperparameters for the model building
+    ├── classifier.pkl # saved model
+    └── train_classifier.py # start model training script
 ```
